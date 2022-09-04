@@ -53,7 +53,8 @@ def get_text(message):
     elif message.text == "Завтра":
         bot.send_message(message.chat.id,choose_day(datetime.datetime.today().weekday()+1), parse_mode="HTML")
     else:
-        bot.send_message(message.chat.id,"Некорректная команда. Используйте /help")
+        bot.send_message(message.chat.id,"Некорректная команда. Используйте /help" + str(datetime.datetime.today().weekday()
+                                                                                         + str(datetime.datetime.today().hour)))
 
 
 if __name__ == '__main__':
