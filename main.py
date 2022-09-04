@@ -11,7 +11,7 @@ import locale
 bot = telebot.TeleBot("5746856996:AAHKInwXo7Ka-HACHijMjooH2JER66cluJo")
 
 connection = sqlite3.connect("user_data.db", check_same_thread=False)
-locale.setlocale(locale.LC_ALL,locale.getlocale())
+locale.setlocale(locale.LC_ALL,"ru")
 BaseMarkup = types.ReplyKeyboardMarkup(resize_keyboard=True)
 whole_schedule_button = types.KeyboardButton("Полное расписание")
 today_schedule_button = types.KeyboardButton("Сегодня")
