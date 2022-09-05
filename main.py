@@ -75,7 +75,7 @@ def send_webinar_list(message):
     bot.send_message(message.chat.id,"<b>Список вебинаров:</b>\n"
                                      "* Программированию микроконтроллеров:\n"
                                      "  - Лекция: https://events.webinar.ru/16703079/179657334\n"
-                                     "  - Группа ВК: https://vk.me/join/AJQ1d3C88SKRApCmaOtJlQj6\n"
+                                     "  - Материалы: https://vk.me/join/AJQ1d3C88SKRApCmaOtJlQj6\n"
                                      "* Математическая логика:\n"
                                      "  - Материалы: https://t.me/+lUpBuovizpMwZGQy\n"
                                      "  - Лекция: https://events.webinar.ru/58904181/671873684\n"
