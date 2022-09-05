@@ -15,7 +15,7 @@ def make_user(id, id_group, con):
 def get_users_id(con):
     try:
         cur = con.cursor()
-        cur.execute('SELECT user_id FROM user_data')
+        cur.execute("SELECT user_id FROM user_data")
 
         users_id = list([i[0] for i in cur.fetchall()])
         con.commit()
