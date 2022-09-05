@@ -52,9 +52,9 @@ def start_dialog(message):
         cursor.execute(
             "INSERT INTO public.user_data(user_id, id_group) VALUES ('{}', '{}')".format(str(message.chat.id), "coming soon")
         )
-        connection.commit()
+        cursor.commit()
     except Exception:
-        connection.commit()
+        cursor.commit()
 
 
 @bot.message_handler(commands=['week'])
