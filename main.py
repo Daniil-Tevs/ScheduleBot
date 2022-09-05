@@ -26,7 +26,7 @@ def start_schedule():
     while True:
         users_id = get_users_id(connection)
         if users_id:
-            if datetime.datetime.today().hour == 7:
+            if datetime.datetime.today().hour == 11:
                 for i in users_id:
                     bot.send_message(i, "Доброе утро! Расписание на сегодня\n")
                     bot.send_message(i, choose_day(datetime.datetime.today().weekday()),parse_mode="HTML")
