@@ -6,9 +6,10 @@ def make_user(id, id_group, con):
         )
 
         con.commit()
-
+        con.close()
     except Exception:
         con.commit()
+        con.close()
 
 
 def get_users_id(con):
@@ -18,7 +19,9 @@ def get_users_id(con):
 
         users_id = list([i[0] for i in cur.fetchall()])
         con.commit()
+        con.close()
         return users_id
 
     except Exception:
         con.commit()
+        con.close()
