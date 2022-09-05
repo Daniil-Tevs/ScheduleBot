@@ -73,17 +73,17 @@ def send_tomorrow_schedule(message):
 @bot.message_handler(commands=['webinar'])
 def send_webinar_list(message):
     bot.send_message(message.chat.id,"<b>Список вебинаров:</b>\n"
-                                     "* Программированию микроконтроллеров: https://events.webinar.ru/16703079/179657334 (вебинар лек.)\n"
+                                     "* Программированию микроконтроллеров: https://events.webinar.ru/16703079/179657334\n"
                                      "* Математическая логика:\n"
-                                     "  - Материалы: https://t.me/+lUpBuovizpMwZGQy (телеграм)\n"
-                                     "  - Лекция: https://events.webinar.ru/58904181/671873684 (вебинар)\n"
-                                     "* Алгоритмы и структуры данных: https://events.webinar.ru/58831439/1374164479 (вебинар лек.)\n"
+                                     "  - Материалы: https://t.me/+lUpBuovizpMwZGQy\n"
+                                     "  - Лекция: https://events.webinar.ru/58904181/671873684\n"
+                                     "* Алгоритмы и структуры данных: https://events.webinar.ru/58831439/1374164479\n"
                                      "* Операционным системам и компьютерным сетям:\n"
-                                     "  - https://t.me/+5y8oyt6jVEBhYzBi (телеграм)\n"
-                                     "  - https://events.webinar.ru/58858225/1592822786 (вебинар лек.)\n"
+                                     "  - https://t.me/+5y8oyt6jVEBhYzBi\n"
+                                     "  - https://events.webinar.ru/58858225/1592822786\n"
                                      "* Мат. Анализ:\n"
                                      "  - Материалы: https://cloud.mail.ru/public/52LR/55ceYr3fC\n"
-                                     "  - Лекция: https://events.webinar.ru/58836733/956301003 (вебинар лек.)\n"
+                                     "  - Лекция: https://events.webinar.ru/58836733/956301003\n"
                                      "* Физра: Ещё нет (Вебинар)/Тесты в ЛМС", parse_mode="HTML")
 
 
@@ -92,7 +92,8 @@ def help_user(message):
     bot.send_message(message.chat.id, "<b>Список моих команд:</b>\n"
                                       "* /week - расписание на всю неделю\n"
                                       "* /today - расписание на сегодня\n"
-                                      "* /tomorrow - расписание на завтра\n", parse_mode="HTML")
+                                      "* /tomorrow - расписание на завтра\n"
+                                      "* /webinar - список вебинаров", parse_mode="HTML")
 
 @bot.message_handler(content_types=['text'])
 def get_text(message):
