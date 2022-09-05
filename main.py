@@ -7,7 +7,7 @@ import sqlite3
 from telebot import types
 from days_of_week import *
 
-bot = telebot.TeleBot("5746856996:AAHKInwXo7Ka-HACHijMjooH2JER66cluJo")
+bot = telebot.TeleBot("5401716279:AAEbv4l-bgSxOEWV-IaaAlbj2FYMjPoUzDc")
 
 connection = sqlite3.connect("user_data.db", check_same_thread=False)
 BaseMarkup = types.ReplyKeyboardMarkup(resize_keyboard=True)
