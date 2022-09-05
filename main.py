@@ -22,7 +22,8 @@ BaseMarkup = types.ReplyKeyboardMarkup(resize_keyboard=True)
 whole_schedule_button = types.KeyboardButton("Полное расписание")
 today_schedule_button = types.KeyboardButton("Сегодня")
 tomorrow_schedule_button = types.KeyboardButton("Завтра")
-BaseMarkup.add(whole_schedule_button,today_schedule_button,tomorrow_schedule_button)
+webinar_list_button = types.KeyboardButton("Вебинар")
+BaseMarkup.add(whole_schedule_button,today_schedule_button,tomorrow_schedule_button,webinar_list_button)
 
 def proc_start():
     p_to_start = Process(target=start_schedule)
@@ -69,6 +70,23 @@ def send_tomorrow_schedule(message):
     bot.send_message(message.chat.id,choose_day(datetime.datetime.today().weekday()+1), parse_mode="HTML")
 
 
+@bot.message_handler(commands=['webinar'])
+def send_webinar_list(message):
+    bot.send_message(message.chat.id,"<b>Список вебинаров:</b>\n"
+                                     "* Программированию микроконтроллеров: https://events.webinar.ru/16703079/179657334 (вебинар лек.)\n"
+                                     "* Математическая логика:\n"
+                                     "  - Материалы: https://t.me/+lUpBuovizpMwZGQy (телеграм)\n"
+                                     "  - Лекция: https://events.webinar.ru/58904181/671873684 (вебинар)\n"
+                                     "* Алгоритмы и структуры данных: https://events.webinar.ru/58831439/1374164479 (вебинар лек.)\n"
+                                     "* Операционным системам и компьютерным сетям:\n"
+                                     "  - https://t.me/+5y8oyt6jVEBhYzBi (телеграм)\n"
+                                     "  - https://events.webinar.ru/58858225/1592822786 (вебинар лек.)\n"
+                                     "* Мат. Анализ:\n"
+                                     "  - Материалы: https://cloud.mail.ru/public/52LR/55ceYr3fC\n"
+                                     "  - Лекция: https://events.webinar.ru/58836733/956301003 (вебинар лек.)\n"
+                                     "* Физра: Ещё нет (Вебинар)/Тесты в ЛМС", parse_mode="HTML")
+
+
 @bot.message_handler(commands=['help'])
 def help_user(message):
     bot.send_message(message.chat.id, "<b>Список моих команд:</b>\n"
@@ -84,6 +102,8 @@ def get_text(message):
         send_today_schedule(message)
     elif message.text == "Завтра":
         send_tomorrow_schedule(message)
+    elif message.text == "Вебинар":
+        send_webinar_list(message)
     else:
         bot.send_message(message.chat.id,"Некорректная команда. Используйте /help")
 
