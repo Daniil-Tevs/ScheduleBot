@@ -37,6 +37,8 @@ def start_schedule():
                     bot.send_message(i, "Доброе утро! Расписание на сегодня\n")
                     bot.send_message(i, choose_day(datetime.datetime.today().weekday()),parse_mode="HTML")
                 time.sleep(60*60*24)
+            else:
+                time.sleep(60 * 60)
 
 
 @bot.message_handler(commands=['start'])
@@ -70,9 +72,6 @@ def help_user(message):
                                       "* /week - расписание на всю неделю\n"
                                       "* /today - расписание на сегодня\n"
                                       "* /tomorrow - расписание на завтра\n", parse_mode="HTML")
-    if get_users_id(connection):
-        for i in get_users_id(connection):
-            bot.send_message(message.chat.id,i)
 
 @bot.message_handler(content_types=['text'])
 def get_text(message):
