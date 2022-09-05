@@ -42,17 +42,40 @@ def start_dialog(message):
     make_user(message.chat.id,"coming soon",connection)
 
 
+@bot.message_handler(commands=['week'])
+def send_whole_schedule(message):
+    with open("whole_schedule.png", "rb") as image:
+        bot.send_photo(message.chat.id, photo=image)
+
+
+@bot.message_handler(commands=['today'])
+def send_today_schedule(message):
+    bot.send_message(message.chat.id,choose_day(datetime.datetime.today().weekday()), parse_mode="HTML")
+
+
+@bot.message_handler(commands=['tomorrow'])
+def send_tomorrow_schedule(message):
+    bot.send_message(message.chat.id,choose_day(datetime.datetime.today().weekday()+1), parse_mode="HTML")
+
+
+@bot.message_handler(commands=['help'])
+def help_user(message):
+    bot.send_message(message.chat.id, "<b>Список моих команд:</b>\n"
+                                      "* /week - расписание на всю неделю\n"
+                                      "* /today - расписание на сегодня\n"
+                                      "* /tomorrow - расписание на завтра\n", parse_mode="HTML")
+
+
 @bot.message_handler(content_types=['text'])
 def get_text(message):
     if message.text == "Полное расписание":
-        with open("whole_schedule.png","rb") as image:
-            bot.send_photo(message.chat.id,photo=image)
+        send_whole_schedule(message)
     elif message.text == "Сегодня":
-        bot.send_message(message.chat.id,choose_day(datetime.datetime.today().weekday()), parse_mode="HTML")
+        send_today_schedule(message)
     elif message.text == "Завтра":
-        bot.send_message(message.chat.id,choose_day(datetime.datetime.today().weekday()+1), parse_mode="HTML")
+        send_tomorrow_schedule(message)
     else:
-        bot.send_message(message.chat.id,"Некорректная команда. Используйте /help" + str(datetime.datetime.today().hour))
+        bot.send_message(message.chat.id,"Некорректная команда. Используйте /help")
 
 
 if __name__ == '__main__':
