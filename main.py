@@ -3,12 +3,19 @@ import datetime
 from multiprocessing import *
 from update_db import make_user, get_users_id
 import time
+import psycopg2
 from telebot import types
 from days_of_week import *
 
 bot = telebot.TeleBot("5401716279:AAEbv4l-bgSxOEWV-IaaAlbj2FYMjPoUzDc")
 
-
+connection = psycopg2.connect(
+    database="da9ueqg4mqu8o1",
+    user="rtijlvzrnnclrb",
+    password="235899f24fffb504c10520411c96c7210782308ed71de37bfeed638043414ef4",
+    host="ec2-99-81-16-126.eu-west-1.compute.amazonaws.com",
+    port="5432"
+)
 BaseMarkup = types.ReplyKeyboardMarkup(resize_keyboard=True)
 whole_schedule_button = types.KeyboardButton("Полное расписание")
 today_schedule_button = types.KeyboardButton("Сегодня")
@@ -23,7 +30,7 @@ def proc_start():
 
 def start_schedule():
     while True:
-        users_id = get_users_id()
+        users_id = get_users_id(connection)
         if users_id:
             if datetime.datetime.today().hour == 7:
                 for i in users_id:
@@ -38,7 +45,7 @@ def start_dialog(message):
                                      "ПМИ 2 курса 3 подгруппе")
     bot.send_message(message.chat.id, "Выберете необходимое расписание", reply_markup=BaseMarkup)
 
-    make_user(message.chat.id,"coming soon")
+    make_user(message.chat.id,"coming soon",connection)
 
 
 @bot.message_handler(commands=['week'])
@@ -63,8 +70,8 @@ def help_user(message):
                                       "* /week - расписание на всю неделю\n"
                                       "* /today - расписание на сегодня\n"
                                       "* /tomorrow - расписание на завтра\n", parse_mode="HTML")
-    if get_users_id():
-        for i in get_users_id():
+    if get_users_id(connection):
+        for i in get_users_id(connection):
             bot.send_message(message.chat.id,i)
 
 @bot.message_handler(content_types=['text'])
