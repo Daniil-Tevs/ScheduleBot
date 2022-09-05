@@ -92,7 +92,6 @@ if __name__ == '__main__':
     while True:
         pr = proc_start()
         try:
-            cursor = connection.cursor()
             bot.polling(none_stop=True)
         except Exception:
             pass
