@@ -64,7 +64,9 @@ def help_user(message):
                                       "* /week - расписание на всю неделю\n"
                                       "* /today - расписание на сегодня\n"
                                       "* /tomorrow - расписание на завтра\n", parse_mode="HTML")
-
+    if get_users_id(connection):
+        for i in get_users_id(connection):
+            bot.send_message(message.chat.id,i)
 
 @bot.message_handler(content_types=['text'])
 def get_text(message):
