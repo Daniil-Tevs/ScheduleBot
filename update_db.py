@@ -16,7 +16,6 @@ def get_users_id(con):
         cur.execute("SELECT user_id FROM user_data")
 
         users_id = list([i[0] for i in cur.fetchall()])
-        con.commit()
         return users_id
 
     except Exception:
