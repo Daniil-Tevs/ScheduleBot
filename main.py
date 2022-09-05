@@ -50,11 +50,11 @@ def start_dialog(message):
     bot.send_message(message.chat.id, "Выберете необходимое расписание", reply_markup=BaseMarkup)
     try:
         cursor.execute(
-            "INSERT INTO public.user_data(user_id, id_group) VALUES ('{}', '{}')".format(str(message.chat.id), "coming soon")
+            "INSERT INTO user_data(user_id, id_group) VALUES ('{}', '{}')".format(str(message.chat.id), "coming soon")
         )
-        cursor.commit()
+        connection.commit()
     except Exception:
-        cursor.commit()
+        connection.commit()
 
 
 @bot.message_handler(commands=['week'])
