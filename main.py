@@ -1,7 +1,7 @@
 import telebot
 import datetime
 from multiprocessing import *
-from update_db import make_user, get_users_id
+from update_db import get_users_id
 import time
 import psycopg2
 from telebot import types
@@ -48,8 +48,13 @@ def start_dialog(message):
     bot.send_message(message.chat.id,"Привет! Я телеграм-бот ScheduleBot, который пока помогает с учебным расписанием "
                                      "ПМИ 2 курса 3 подгруппе")
     bot.send_message(message.chat.id, "Выберете необходимое расписание", reply_markup=BaseMarkup)
-
-    make_user(message.chat.id,"coming soon",cursor,connection)
+    try:
+        cursor.execute(
+            "INSERT INTO public.user_data(user_id, id_group) VALUES ('{}', '{}')".format(str(message.chat.id), "coming soon")
+        )
+        connection.commit()
+    except Exception:
+        connection.commit()
 
 
 @bot.message_handler(commands=['week'])
