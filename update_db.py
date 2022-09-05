@@ -1,8 +1,9 @@
-def make_user(id, id_group, cur):
+def make_user(id, id_group, cur,con):
     try:
         cur.execute(
             "INSERT INTO public.user_data(user_id, id_group) VALUES ('{}', '{}')".format(str(id), str(id_group))
         )
+        con.commit()
     except Exception:
         pass
 

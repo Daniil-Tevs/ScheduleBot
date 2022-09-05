@@ -49,8 +49,7 @@ def start_dialog(message):
                                      "ПМИ 2 курса 3 подгруппе")
     bot.send_message(message.chat.id, "Выберете необходимое расписание", reply_markup=BaseMarkup)
 
-    make_user(message.chat.id,"coming soon",cursor)
-    connection.commit()
+    make_user(message.chat.id,"coming soon",cursor,connection)
 
 
 @bot.message_handler(commands=['week'])
