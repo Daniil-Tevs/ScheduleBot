@@ -16,6 +16,8 @@ connection = psycopg2.connect(
     host="ec2-99-81-16-126.eu-west-1.compute.amazonaws.com",
     port="5432"
 )
+cursor = connection.cursor()
+
 BaseMarkup = types.ReplyKeyboardMarkup(resize_keyboard=True)
 whole_schedule_button = types.KeyboardButton("Полное расписание")
 today_schedule_button = types.KeyboardButton("Сегодня")
@@ -30,7 +32,7 @@ def proc_start():
 
 def start_schedule():
     while True:
-        users_id = get_users_id(connection)
+        users_id = get_users_id(cursor)
         if users_id:
             if datetime.datetime.today().hour == 7:
                 for i in users_id:
@@ -47,7 +49,8 @@ def start_dialog(message):
                                      "ПМИ 2 курса 3 подгруппе")
     bot.send_message(message.chat.id, "Выберете необходимое расписание", reply_markup=BaseMarkup)
 
-    make_user(message.chat.id,"coming soon",connection)
+    make_user(message.chat.id,"coming soon",cursor)
+    connection.commit()
 
 
 @bot.message_handler(commands=['week'])
