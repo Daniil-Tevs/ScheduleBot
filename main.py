@@ -40,8 +40,6 @@ def start_schedule():
                     bot.send_message(i, "Доброе утро! Расписание на сегодня\n")
                     bot.send_message(i, choose_day(datetime.datetime.today().weekday()),parse_mode="HTML")
                 time.sleep(60*60*24)
-            else:
-                time.sleep(60 * 60)
 
 
 @bot.message_handler(commands=['start'])
