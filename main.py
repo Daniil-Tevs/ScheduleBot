@@ -2,7 +2,6 @@ import telebot
 import datetime
 from multiprocessing import *
 from update_db import make_user, get_users_id, get_group, delete_user
-import time
 import psycopg2
 from telebot import types
 from days_of_week import *
@@ -221,6 +220,7 @@ def get_text(message):
 if __name__ == '__main__':
     while True:
         pr = proc_start()
+        cursor = connection.cursor()
         try:
             bot.polling(none_stop=True)
         except Exception:
