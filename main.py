@@ -222,7 +222,5 @@ if __name__ == '__main__':
         pr = proc_start()
         try:
             bot.polling(none_stop=True)
-            cursor.close()
-            cursor = connection.cursor()
         except Exception:
             pass
