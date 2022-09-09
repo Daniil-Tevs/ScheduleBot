@@ -220,8 +220,9 @@ def get_text(message):
 if __name__ == '__main__':
     while True:
         pr = proc_start()
-        cursor = connection.cursor()
         try:
             bot.polling(none_stop=True)
+            cursor.close()
+            cursor = connection.cursor()
         except Exception:
             pass
