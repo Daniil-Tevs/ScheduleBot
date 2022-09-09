@@ -31,6 +31,7 @@ def proc_start():
     return p_to_start
 
 
+
 def start_schedule():
     while True:
         users_id = get_users_id(cursor)

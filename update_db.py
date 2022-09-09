@@ -7,6 +7,7 @@ def make_user(id, id_group, cur):
         pass
 
 
+
 def get_users_id(cur):
     try:
         cur.execute('SELECT user_id FROM user_data')
