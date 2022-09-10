@@ -19,12 +19,12 @@ BaseMarkup.add(whole_schedule_button, today_schedule_button, tomorrow_schedule_b
 
 
 def proc_start():
-    p_to_start = Process(target=start_schedule)
+    p_to_start = Process(target=start_schedule, args=(id,))
     p_to_start.start()
     return p_to_start
 
 
-def start_schedule():
+def start_schedule(id):
     while True:
         users_id = get_users_id()
         if users_id:
