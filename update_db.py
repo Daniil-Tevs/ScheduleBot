@@ -27,7 +27,6 @@ def get_users_id():
         with con.cursor() as cur:
             cur.execute('SELECT user_id FROM user_data')
             con.commit()
-            con.close()
 
             users_id = list([i[0] for i in cur.fetchall()])
             return users_id
