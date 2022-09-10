@@ -34,8 +34,7 @@ def start_schedule():
                     bot.send_message(i, choose_day(datetime.datetime.today().weekday(), get_group(users_id)),
                                      parse_mode="HTML")
                 time.sleep(60*60*23)
-            else:
-                time.sleep(60 * 50)
+        time.sleep(60 * 50)
 
 
 
