@@ -2,20 +2,10 @@ import telebot
 import datetime
 from multiprocessing import *
 from update_db import make_user, get_users_id, get_group, delete_user
-import psycopg2
 from telebot import types
 from days_of_week import *
 
 bot = telebot.TeleBot("5401716279:AAEbv4l-bgSxOEWV-IaaAlbj2FYMjPoUzDc")
-
-connection = psycopg2.connect(
-    database="da9ueqg4mqu8o1",
-    user="rtijlvzrnnclrb",
-    password="235899f24fffb504c10520411c96c7210782308ed71de37bfeed638043414ef4",
-    host="ec2-99-81-16-126.eu-west-1.compute.amazonaws.com",
-    port="5432"
-)
-cursor = connection.cursor()
 
 BaseMarkup = types.ReplyKeyboardMarkup(resize_keyboard=True)
 whole_schedule_button = types.KeyboardButton("Полное расписание")
@@ -35,27 +25,24 @@ def proc_start():
 
 def start_schedule():
     while True:
-        users_id = get_users_id(cursor)
+        users_id = get_users_id()
         if users_id:
             if datetime.datetime.today().hour == 7:
                 for i in users_id:
                     bot.send_message(i, "Доброе утро! Расписание на сегодня\n")
-                    bot.send_message(i, choose_day(datetime.datetime.today().weekday(), get_group(users_id, cursor)),
+                    bot.send_message(i, choose_day(datetime.datetime.today().weekday(), get_group(users_id)),
                                      parse_mode="HTML")
 
 
 def choose_group(message):
     if message.text.lower() == "первая":
-        make_user(message.chat.id, "first", cursor)
-        connection.commit()
+        make_user(message.chat.id, "first")
         bot.send_message(message.chat.id, "Успешно! Выберете необходимое расписание", reply_markup=BaseMarkup)
     elif message.text.lower() == "вторая":
-        make_user(message.chat.id, "second", cursor)
-        connection.commit()
+        make_user(message.chat.id, "second")
         bot.send_message(message.chat.id, "Успешно! Выберете необходимое расписание", reply_markup=BaseMarkup)
     elif message.text.lower() == "третья":
-        make_user(message.chat.id, "third", cursor)
-        connection.commit()
+        make_user(message.chat.id, "third")
         bot.send_message(message.chat.id, "Успешно! Выберете необходимое расписание", reply_markup=BaseMarkup)
 
     else:
@@ -72,7 +59,7 @@ def choose_group(message):
 def start_dialog(message):
     bot.send_message(message.chat.id, "Привет! Я телеграм-бот ScheduleBot, который пока помогает с учебным расписанием "
                                       "ПМИ 2 курса")
-    delete_user(message.chat.id, cursor)
+    delete_user(message.chat.id)
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     one_button = types.KeyboardButton("Первая")
     two_button = types.KeyboardButton("Вторая")
@@ -85,8 +72,8 @@ def start_dialog(message):
 
 def choose_answer(message):
     if message.text.lower() == "да":
-        delete_user(message.chat.id, cursor)
-        connection.commit()
+        delete_user(message.chat.id)
+
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
         one_button = types.KeyboardButton("Первая")
         two_button = types.KeyboardButton("Вторая")
@@ -111,13 +98,13 @@ def register(message):
 
 @bot.message_handler(commands=['week'])
 def send_whole_schedule(message):
-    if get_group(message.chat.id, cursor) == "third":
+    if get_group(message.chat.id) == "third":
         with open("whole_schedule.png", "rb") as image:
             bot.send_photo(message.chat.id, photo=image)
-    elif get_group(message.chat.id, cursor) == "second":
+    elif get_group(message.chat.id) == "second":
         with open("whole_week_2.png", "rb") as image:
             bot.send_photo(message.chat.id, photo=image)
-    elif get_group(message.chat.id, cursor) == "first":
+    elif get_group(message.chat.id) == "first":
         with open("whole_schedule.png", "rb") as image:
             bot.send_photo(message.chat.id, photo=image)
 
@@ -125,14 +112,14 @@ def send_whole_schedule(message):
 @bot.message_handler(commands=['today'])
 def send_today_schedule(message):
     bot.send_message(message.chat.id,
-                     choose_day(datetime.datetime.today().weekday(), get_group(message.chat.id, cursor)),
+                     choose_day(datetime.datetime.today().weekday(), get_group(message.chat.id)),
                      parse_mode="HTML")
 
 
 @bot.message_handler(commands=['tomorrow'])
 def send_tomorrow_schedule(message):
     bot.send_message(message.chat.id,
-                     choose_day(datetime.datetime.today().weekday() + 1, get_group(message.chat.id, cursor)),
+                     choose_day(datetime.datetime.today().weekday() + 1, get_group(message.chat.id)),
                      parse_mode="HTML")
 
 
