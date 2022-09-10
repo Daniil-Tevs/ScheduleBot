@@ -7,12 +7,12 @@ con = psycopg2.connect(
     host="ec2-99-81-16-126.eu-west-1.compute.amazonaws.com",
     port="5432"
 )
-cur = con.cursor()
 
 
 def make_user(id, id_group):
+    global con
     try:
-        global cur
+        cur = con.cursor()
         cur.execute(
             "INSERT INTO user_data(user_id, id_group) VALUES ('{}', '{}')".format(str(id), str(id_group))
         )
@@ -22,8 +22,10 @@ def make_user(id, id_group):
 
 
 def get_users_id():
+    global con
     try:
-        global cur
+
+        cur = con.cursor()
         cur.execute('SELECT user_id FROM user_data')
         con.commit()
 
@@ -35,8 +37,9 @@ def get_users_id():
 
 
 def get_group(user_id):
+    global con
     try:
-        global cur
+        cur = con.cursor()
         cur.execute("SELECT id_group FROM user_data WHERE user_id='{}'".format(str(user_id)))
         tmp = cur.fetchall()
         if tmp:
@@ -51,8 +54,9 @@ def get_group(user_id):
 
 
 def delete_user(user_id):
+    global con
     try:
-        global cur
+        cur = con.cursor()
         cur.execute("DELETE FROM user_data WHERE user_id='{}'".format(str(user_id)))
         con.commit()
     except Exception:
