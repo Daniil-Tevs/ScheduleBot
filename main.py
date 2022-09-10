@@ -1,6 +1,6 @@
 import telebot
 import datetime
-from multiprocessing import *
+#from multiprocessing import *
 from update_db import make_user, get_users_id, get_group, delete_user
 from telebot import types
 from days_of_week import *
@@ -17,7 +17,7 @@ BaseMarkup.add(whole_schedule_button, today_schedule_button, tomorrow_schedule_b
                useful_links_button)
 
 
-def proc_start():
+'''def proc_start():
     p_to_start = Process(target=start_schedule)
     p_to_start.start()
     return p_to_start
@@ -31,22 +31,20 @@ def start_schedule():
                 for i in users_id:
                     bot.send_message(i, "Доброе утро! Расписание на сегодня\n")
                     bot.send_message(i, choose_day(datetime.datetime.today().weekday(), get_group(users_id)),
-                                     parse_mode="HTML")
+                                     parse_mode="HTML")'''
 
 
 def choose_group(message):
     if message.text.lower() == "первая":
-        bot.send_message(message.chat.id, "Успешно! Выберете необходимое расписание", reply_markup=BaseMarkup)
         make_user(message.chat.id, "first")
-
+        bot.send_message(message.chat.id, "Успешно! Выберете необходимое расписание", reply_markup=BaseMarkup)
     elif message.text.lower() == "вторая":
-        bot.send_message(message.chat.id, "Успешно! Выберете необходимое расписание", reply_markup=BaseMarkup)
         make_user(message.chat.id, "second")
-
-    elif message.text.lower() == "третья":
         bot.send_message(message.chat.id, "Успешно! Выберете необходимое расписание", reply_markup=BaseMarkup)
+    elif message.text.lower() == "третья":
         make_user(message.chat.id, "third")
-        return
+        bot.send_message(message.chat.id, "Успешно! Выберете необходимое расписание", reply_markup=BaseMarkup)
+
     else:
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
         one_button = types.KeyboardButton("Первая")
@@ -120,9 +118,6 @@ def send_today_schedule(message):
 
 @bot.message_handler(commands=['tomorrow'])
 def send_tomorrow_schedule(message):
-    bot.send_message(message.chat.id,
-                     get_group(message.chat.id),
-                     parse_mode="HTML")
     bot.send_message(message.chat.id,
                      choose_day(datetime.datetime.today().weekday() + 1, get_group(message.chat.id)),
                      parse_mode="HTML")
@@ -211,7 +206,7 @@ def get_text(message):
 
 if __name__ == '__main__':
     while True:
-        pr = proc_start()
+        #pr = proc_start()
         try:
             bot.polling(none_stop=True)
         except Exception:
