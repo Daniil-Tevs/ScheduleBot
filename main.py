@@ -1,6 +1,7 @@
 import telebot
 import datetime
-#from multiprocessing import *
+from multiprocessing import *
+import time
 from update_db import make_user, get_users_id, get_group, delete_user
 from telebot import types
 from days_of_week import *
@@ -17,7 +18,7 @@ BaseMarkup.add(whole_schedule_button, today_schedule_button, tomorrow_schedule_b
                useful_links_button)
 
 
-'''def proc_start():
+def proc_start():
     p_to_start = Process(target=start_schedule)
     p_to_start.start()
     return p_to_start
@@ -31,7 +32,11 @@ def start_schedule():
                 for i in users_id:
                     bot.send_message(i, "Доброе утро! Расписание на сегодня\n")
                     bot.send_message(i, choose_day(datetime.datetime.today().weekday(), get_group(users_id)),
-                                     parse_mode="HTML")'''
+                                     parse_mode="HTML")
+                time.sleep(60*60*23)
+            else:
+                time.sleep(60 * 50)
+
 
 
 def choose_group(message):
@@ -206,7 +211,7 @@ def get_text(message):
 
 if __name__ == '__main__':
     while True:
-        #pr = proc_start()
+        pr = proc_start()
         try:
             bot.polling(none_stop=True)
         except Exception:
