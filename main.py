@@ -36,15 +36,17 @@ def start_schedule():
 
 def choose_group(message):
     if message.text.lower() == "первая":
+        bot.send_message(message.chat.id, "Успешно! Выберете необходимое расписание", reply_markup=BaseMarkup)
         make_user(message.chat.id, "first")
-        bot.send_message(message.chat.id, "Успешно! Выберете необходимое расписание", reply_markup=BaseMarkup)
-    elif message.text.lower() == "вторая":
-        make_user(message.chat.id, "second")
-        bot.send_message(message.chat.id, "Успешно! Выберете необходимое расписание", reply_markup=BaseMarkup)
-    elif message.text.lower() == "третья":
-        make_user(message.chat.id, "third")
-        bot.send_message(message.chat.id, "Успешно! Выберете необходимое расписание", reply_markup=BaseMarkup)
 
+    elif message.text.lower() == "вторая":
+        bot.send_message(message.chat.id, "Успешно! Выберете необходимое расписание", reply_markup=BaseMarkup)
+        make_user(message.chat.id, "second")
+
+    elif message.text.lower() == "третья":
+        bot.send_message(message.chat.id, "Успешно! Выберете необходимое расписание", reply_markup=BaseMarkup)
+        make_user(message.chat.id, "third")
+        return
     else:
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
         one_button = types.KeyboardButton("Первая")
@@ -118,6 +120,9 @@ def send_today_schedule(message):
 
 @bot.message_handler(commands=['tomorrow'])
 def send_tomorrow_schedule(message):
+    bot.send_message(message.chat.id,
+                     get_group(message.chat.id),
+                     parse_mode="HTML")
     bot.send_message(message.chat.id,
                      choose_day(datetime.datetime.today().weekday() + 1, get_group(message.chat.id)),
                      parse_mode="HTML")
