@@ -14,7 +14,7 @@ def make_user(id, id_group):
     try:
         with con.cursor() as cur:
             cur.execute(
-                "INSERT INTO user_data(user_id, id_group) VALUES ('{}', '{}')".format(str(id), str(id_group))
+                "INSERT INTO public.user_data(user_id, id_group) VALUES ('{}', '{}')".format(str(id), str(id_group))
             )
             con.commit()
     except Exception:
@@ -25,7 +25,7 @@ def get_users_id():
     global con
     try:
         with con.cursor() as cur:
-            cur.execute('SELECT user_id FROM user_data')
+            cur.execute('SELECT user_id FROM public.user_data')
             con.commit()
 
             users_id = list([i[0] for i in cur.fetchall()])
@@ -39,7 +39,7 @@ def get_group(user_id):
     global con
     try:
         with con.cursor() as cur:
-            cur.execute("SELECT id_group FROM user_data WHERE user_id='{}'".format(str(user_id)))
+            cur.execute("SELECT id_group FROM public.user_data WHERE user_id='{}'".format(str(user_id)))
             tmp = cur.fetchall()
             if tmp:
                 group = tmp[0][0]
@@ -56,7 +56,7 @@ def delete_user(user_id):
     global con
     try:
         with con.cursor() as cur:
-            cur.execute("DELETE FROM user_data WHERE user_id='{}'".format(str(user_id)))
+            cur.execute("DELETE FROM public.user_data WHERE user_id='{}'".format(str(user_id)))
             con.commit()
     except Exception:
         pass
