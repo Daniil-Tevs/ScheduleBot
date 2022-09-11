@@ -129,7 +129,9 @@ def send_whole_schedule(message):
         with open("whole_week_2.png", "rb") as image:
             bot.send_photo(message.chat.id, photo=image)
     elif get_group(message.chat.id) == "first":
-        with open("whole_schedule.png", "rb") as image:
+        with open("1week1part.png", "rb") as image:
+            bot.send_photo(message.chat.id, photo=image)
+        with open("1week2part.png", "rb") as image:
             bot.send_photo(message.chat.id, photo=image)
 
 
