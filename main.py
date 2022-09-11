@@ -1,6 +1,6 @@
 import telebot
 import datetime
-#from multiprocessing import *
+# from multiprocessing import *
 import time
 from update_db import make_user, get_users_id, get_group, delete_user
 from telebot import types
@@ -12,11 +12,11 @@ BaseMarkup = types.ReplyKeyboardMarkup(resize_keyboard=True)
 whole_schedule_button = types.KeyboardButton("Полное расписание")
 today_schedule_button = types.KeyboardButton("Сегодня")
 tomorrow_schedule_button = types.KeyboardButton("Завтра")
+whole_groups_button = types.KeyboardButton("Все группы")
 webinar_list_button = types.KeyboardButton("Вебинар")
 useful_links_button = types.KeyboardButton("Ссылки")
-BaseMarkup.add(whole_schedule_button, today_schedule_button, tomorrow_schedule_button, webinar_list_button,
-               useful_links_button)
-
+BaseMarkup.add(whole_schedule_button, today_schedule_button, tomorrow_schedule_button, whole_groups_button,
+               webinar_list_button, useful_links_button)
 
 '''def proc_start():
     p_to_start = Process(target=start_schedule, args=(id,))
@@ -37,6 +37,7 @@ def start_schedule(id):
         time.sleep(60 * 50)
 
 '''
+
 
 def choose_group(message):
     if message.text.lower() == "первая":
@@ -127,6 +128,12 @@ def send_tomorrow_schedule(message):
                      parse_mode="HTML")
 
 
+@bot.message_handler(commands=['group'])
+def send_groups_schedule(message):
+    with open("2PM.pdf", "rb") as file:
+        bot.send_document(message.chat.id, document=file)
+
+
 @bot.message_handler(commands=['webinar'])
 def send_webinar_list(message):
     bot.send_message(message.chat.id, "<b>Список вебинаров:</b>\n"
@@ -185,6 +192,7 @@ def help_user(message):
     bot.send_message(message.chat.id, "<b>Список моих команд:</b>\n"
                                       "* /week - расписание на всю неделю\n"
                                       "* /today - расписание на сегодня\n"
+                                      "* /group - расписание для всех групп"
                                       "* /tomorrow - расписание на завтра\n"
                                       "* /webinar - список вебинаров\n"
                                       "* /register - сменить группу ПМИ\n"
@@ -194,7 +202,12 @@ def help_user(message):
 
 @bot.message_handler(content_types=['text'])
 def get_text(message):
-    if message.text == "Полное расписание":
+    if message.text.lower() == "привет" or message.text.lower() == "привет!":
+        bot.send_message(message.chat.id, "Здравствуйте! Выберете необходимое действие", reply_markup=BaseMarkup)
+    elif message.text.lower() == "как дела" or message.text.lower() == "как дела?":
+        bot.send_message(message.chat.id, "Очевидно, что у меня всё хорошо. Надеюсь у вас также! Выберете необходимое "
+                                          "действие", reply_markup=BaseMarkup)
+    elif message.text == "Полное расписание":
         send_whole_schedule(message)
     elif message.text == "Сегодня":
         send_today_schedule(message)
@@ -204,13 +217,15 @@ def get_text(message):
         send_webinar_list(message)
     elif message.text == "Ссылки":
         send_links_list(message)
+    elif message.text == "Все группы":
+        send_groups_schedule(message)
     else:
         bot.send_message(message.chat.id, "Некорректная команда. Используйте /help")
 
 
 if __name__ == '__main__':
     while True:
-        #pr = proc_start()
+        # pr = proc_start()
         try:
             bot.polling(none_stop=True)
         except Exception:
