@@ -42,13 +42,16 @@ def start_schedule(id):
 def choose_group(message):
     if message.text.lower() == "первая":
         make_user(message.chat.id, "first")
-        bot.send_message(message.chat.id, "Успешно! Выберете необходимое расписание", reply_markup=BaseMarkup)
+        bot.send_message(message.chat.id, "Успешно! Выберете необходимое расписание, что бы увидеть полный "
+                                          "функционал, пишите /info", reply_markup=BaseMarkup)
     elif message.text.lower() == "вторая":
         make_user(message.chat.id, "second")
-        bot.send_message(message.chat.id, "Успешно! Выберете необходимое расписание", reply_markup=BaseMarkup)
+        bot.send_message(message.chat.id, "Успешно! Выберете необходимое расписание, что бы увидеть полный "
+                                          "функционал, пишите /info", reply_markup=BaseMarkup)
     elif message.text.lower() == "третья":
         make_user(message.chat.id, "third")
-        bot.send_message(message.chat.id, "Успешно! Выберете необходимое расписание", reply_markup=BaseMarkup)
+        bot.send_message(message.chat.id, "Успешно! Выберете необходимое расписание, что бы увидеть полный "
+                                          "функционал, пишите /info", reply_markup=BaseMarkup)
 
     else:
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
@@ -62,7 +65,7 @@ def choose_group(message):
 
 @bot.message_handler(commands=['start'])
 def start_dialog(message):
-    bot.send_message(message.chat.id, "Привет! Я телеграм-бот ScheduleBot, который пока помогает с учебным расписанием "
+    bot.send_message(message.chat.id, "Привет! Я телеграм-бот ScheduleBot, который помогает с учебным расписанием "
                                       "ПМИ 2 курса")
     delete_user(message.chat.id)
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
@@ -101,6 +104,21 @@ def register(message):
     bot.register_next_step_handler(message, choose_answer)
 
 
+@bot.message_handler(commands=['info'])
+def send_info(message):
+    bot.send_message(message.chat.id, "Я телеграм-бот ScheduleBot, который помогает с учебным расписанием ПМИ 2 курса.")
+    bot.send_message(message.chat.id, "<b>Список моих команд:</b>\n"
+                                      "* /week - расписание на всю неделю\n"
+                                      "* /today - расписание на сегодня\n"
+                                      "* /tomorrow - расписание на завтра\n"
+                                      "* /group - расписание для всех групп"
+                                      "* /up_or_down - расписание верхних и нижних недель\n"
+                                      "* /webinar - список вебинаров\n"
+                                      "* /register - сменить группу ПМИ\n"
+                                      "* /links - полезные ссылки\n"
+                                      "* /youtube - список лекций на YouTube\n", parse_mode="HTML")
+
+
 @bot.message_handler(commands=['week'])
 def send_whole_schedule(message):
     if get_group(message.chat.id) == "third":
@@ -132,6 +150,12 @@ def send_tomorrow_schedule(message):
 def send_groups_schedule(message):
     with open("2PM.pdf", "rb") as file:
         bot.send_document(message.chat.id, document=file)
+
+
+@bot.message_handler(commands=['up_or_down'])
+def send_up_or_down_week_schedule(message):
+    with open("upORdown_week.jpg", "rb") as img:
+        bot.send_photo(message.chat.id, photo=img)
 
 
 @bot.message_handler(commands=['webinar'])
@@ -187,13 +211,45 @@ def send_links_list(message):
     bot.send_message(message.chat.id, "Чтобы получить список лекций в ютубе, пропишите /youtube", parse_mode="HTML")
 
 
+@bot.message_handler(commands=['teacher'])
+def send_teacher(message):
+    bot.send_message(message.chat.id, "<b>Список преподавателей:</b>\n"
+                                      "* Диффуры \n"
+                                      "  - Сергей Александрович Ишанов - sishanov@kantiana.ru"
+                                      "* Матлогика/Матанализ(пр)\n"
+                                      "  - Артур Владимирович Кулешов - akuleshov@kantiana.ru или arturkuleshov@yandex.ru\n"
+                                      "* Матанализ(лекции)\n"
+                                      "  - Владимир Николаевич Худенко - vkhudenko@kantiana.ru \n"
+                                      "* ФКис\n"
+                                      "  - Куратор: Головина Елена Александровна - elevchenko@kantiana.ru\n"
+                                      "  - Лектор: Тамошевская Ольга Борисовна - otomashevskaya@kantiana.ru\n"
+                                      "* Иностранный язык\n"
+                                      "  - Английский: Якубовская Алла Евгеньевна - nightrain@bk.ru\n"
+                                      "* Программирование микроконтроллеров\n"
+                                      "  - Леонов Сергей В. - https://vk.com/svleonov\n"
+                                      "* Алгоритмы и структуры данных Опер. Системы и Комп. Сети\n"
+                                      "  - Лектор: Тимофей А. Тенебеков - ttenebekov@kantiana.ru\n"
+                                      "  - Принимающий лабы: Александр В. Балобанов - abalobanov@stud.kantiana.ru\n"
+                                      "* Опер. Системы и Комп. Сети\n"
+                                      "  - Богдан Р. Мищук - bmishchuk@kantiana.ru или t.me/ixeor\n"
+                                      "* Физика\n"
+                                      "  - Андрей А. Горбачев - algorbachev@kantiana.ru\n"
+                                      "* Ставицкая Екатерина Петровна - enovikova@kantiana.ru или https://vk.com/id79186283\n"
+                                      "* Маклахова Ирина Сергеевна - imaklakhova@mail.ru\n"
+                                      "* Скрыдлова Елена Викторовна - eskrydlova@kantiana.ru\n"
+                                      "* Тарачков Михаил Владимирович - mishklgpmi@mail.ru или https://vk.com/mishklgpmi\n"
+                                      "* Шевченко Юрий Иванович - iushevchenko@kantiana.ru\n", parse_mode="HTML")
+
+
 @bot.message_handler(commands=['help'])
 def help_user(message):
     bot.send_message(message.chat.id, "<b>Список моих команд:</b>\n"
+                                      "* /info - информация о боте\n"
                                       "* /week - расписание на всю неделю\n"
                                       "* /today - расписание на сегодня\n"
-                                      "* /group - расписание для всех групп"
                                       "* /tomorrow - расписание на завтра\n"
+                                      "* /group - расписание для всех групп"
+                                      "* /up_or_down - расписание верхних и нижних недель\n"
                                       "* /webinar - список вебинаров\n"
                                       "* /register - сменить группу ПМИ\n"
                                       "* /links - полезные ссылки\n"
